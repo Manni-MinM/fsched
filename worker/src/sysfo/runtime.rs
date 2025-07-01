@@ -15,7 +15,6 @@ pub struct SystemInfo {
     used_swap: u64,
     free_cache: u64,
     total_cache: u64,
-    used_cache: u64,
 }
 
 #[derive(Clone)]
@@ -31,6 +30,20 @@ impl Runtime {
             system: Arc::new(Mutex::new(System::new_all())),
             dummy_cache_bundle,
         }
+    }
+
+    pub async fn adjust_free_cache(&mut self, adjustment: i64) -> Result<(), ()> {
+        let (free_cache, total_cache) = self.dummy_cache_bundle;
+        let new_free_cache = (free_cache as i64) + adjustment;
+
+        if new_free_cache >= 0 {
+            let new_free_cache = new_free_cache as u64;
+            self.dummy_cache_bundle = ((new_free_cache as u64), total_cache);
+
+            return Ok(())
+        }
+
+        Err(())
     }
 
     pub async fn export_info(&mut self) -> SystemInfo {
@@ -49,7 +62,6 @@ impl Runtime {
         let used_swap = total_swap - free_swap;
 
         let (free_cache, total_cache) = self.dummy_cache_bundle;
-        let used_cache = total_cache - free_cache;
 
         SystemInfo {
             cpu_cores,
@@ -61,7 +73,6 @@ impl Runtime {
             used_swap,
             free_cache,
             total_cache,
-            used_cache,
         }
     }
 }

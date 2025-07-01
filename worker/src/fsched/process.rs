@@ -50,9 +50,11 @@ impl Process {
     pub fn run(&mut self) {
         let mut command = format!("{} {}", self.result.command.clone(), self.result.input_size);
 
-        if self.result.cos != 0 {
-            command = format!("taskset -c {} {}", self.result.cos, self.result.command.clone());
-        }
+        // FIXME: comment/uncomment lines below for simulation/implementation
+
+        // if self.result.cos != 0 {
+        //     command = format!("taskset -c {} {}", self.result.cos, self.result.command.clone());
+        // }
 
         let mut parts = command.split_whitespace();
         let program = parts.next().unwrap();

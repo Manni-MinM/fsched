@@ -62,6 +62,7 @@ async fn main() {
 
         let exporter_app = Router::new()
             .route("/info", get(SysfoService::info_handler))
+            .route("/adjust", post(SysfoService::adjust_free_cache_handler))
             .with_state(exporter_state);
 
         let app = Router::new()

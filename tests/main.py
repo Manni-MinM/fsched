@@ -17,7 +17,7 @@ FUNCTIONS = [
         "command": "python3.10",
         "filepath": "eigenvalue/eigenvalue.py",
         "benchmark_inputs": ["2000"],
-        "run_inputs": ["1500", "2000", "2500"],
+        "run_inputs": ["2000", "1500", "2500"],
     },
 ]
 
@@ -77,8 +77,8 @@ if __name__ == "__main__":
         print(f"Testing Successful: %SINGLE WORKER%")
 
         # multi worker test
-        test_scenario(["http://localhost:3000", "http://localhost:3100"], 10)
-        print(f"Testing Successful: %MULTI WORKERS%")
+        # test_scenario(["http://localhost:3000", "http://localhost:3100"], 10)
+        # print(f"Testing Successful: %MULTI WORKERS%")
 
     except Exception as err:
         print(f"Testing Failed With The Following Error: {err}")

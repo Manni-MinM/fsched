@@ -16,7 +16,6 @@ class SystemInfo:
     used_swap: int
     free_cache: int
     total_cache: int
-    used_cache: int
 
 
 class WorkerNode:
@@ -41,6 +40,18 @@ class WorkerNode:
         json_data = resp.json()
         self.system_info = SystemInfo(**json_data)
 
+    def adjust_system_cache(self, adjustment):
+        url = f"{self.host}/system/adjust"
+
+        headers = {"Content-Type": "application/json"}
+
+        payload = {
+            "adjustment": adjustment,
+        }
+
+        resp = self.__session.post(url, headers=headers, json=payload)
+        resp.raise_for_status()
+
     def load_task(self, task_id):
         url = f"{self.host}/task/file/new"
 
@@ -58,6 +69,10 @@ class WorkerNode:
 
         headers = {"Content-Type": "application/json"}
 
+        self.adjust_system_cache(-1 * cos)
+
+        # FIXME: comment/uncomment lines below for simulation/implementation
+
         payload = {
             "command": command,
             "filename": id,
@@ -68,5 +83,7 @@ class WorkerNode:
 
         resp = self.__session.post(url, headers=headers, json=payload)
         resp.raise_for_status()
+
+        self.adjust_system_cache(cos)
 
         return resp.json()
