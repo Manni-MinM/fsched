@@ -30,7 +30,13 @@ class HTTPClient:
         response = requests.get(url)
         response.raise_for_status()
 
-        return response.json()
+        json_data = response.json()
+
+        worker_list = {}
+        for id in json_data:
+            worker_list[id] = (json_data[id]["free_cache"], json_data[id]["total_cache"])
+
+        return worker_list
 
     def get_generosity(self):
         url = f"{self.scheduler_url}/scheduler/generosity"

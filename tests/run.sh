@@ -9,8 +9,8 @@ make gunicorn-predictor&
 deactivate
 
 cd ../worker/
-make start-worker PORT=3000&
-make start-worker PORT=3100&
+make start-worker PORT=3000 FREE_CACHE=3 TOTAL_CACHE=20&
+make start-worker PORT=3100 FREE_CACHE=10 TOTAL_CACHE=10&
 
 cd ../tests/
 source .venv/bin/activate

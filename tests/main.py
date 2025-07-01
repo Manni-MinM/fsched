@@ -34,6 +34,9 @@ def test_scenario(worker_hosts, worker_sleep_duration):
 
     time.sleep(worker_sleep_duration)
 
+    worker_list = client.list_workers()
+    print("[WORKERS] => ", worker_list)
+
     for function in FUNCTIONS:
         command = function["command"]
         filepath = f"{FUNCTION_DIR}/{function['filepath']}"

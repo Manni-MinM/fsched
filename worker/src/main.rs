@@ -8,7 +8,7 @@ use axum::{
 
 use std::env;
 
-use config::{Config, FileFormat, File};
+// use config::{Config, FileFormat, File};
 
 use fsched::{
     runtime::Runtime as FschedRuntime,
@@ -19,19 +19,25 @@ use sysfo::{
     service::HTTPService as SysfoService,
 };
 
-const CONFIG_FILE: &str = "config";
+// const CONFIG_FILE: &str = "config";
 
 #[tokio::main]
 async fn main() {
-    let app_config = Config::builder()
-        .add_source(File::new(CONFIG_FILE, FileFormat::Toml))
-        .build()
-        .unwrap();
+    // let app_config = Config::builder()
+    //     .add_source(File::new(CONFIG_FILE, FileFormat::Toml))
+    //     .build()
+    //     .unwrap();
 
     let fsched = FschedRuntime::new().expect("Failed to create fsched runtime");
 
-    let free_cache = app_config.get("free_cache").unwrap();
-    let total_cache = app_config.get("total_cache").unwrap();
+    // let free_cache = app_config.get("free_cache").unwrap();
+    // let total_cache = app_config.get("total_cache").unwrap();
+
+    let free_cache_arg = env::args().nth(3).unwrap_or_else(|| "0".to_string());
+    let total_cache_arg = env::args().nth(4).unwrap_or_else(|| "0".to_string());
+
+    let free_cache = free_cache_arg.parse::<u64>().unwrap_or(0);
+    let total_cache = total_cache_arg.parse::<u64>().unwrap_or(0);
 
     let sysfo = SysfoRuntime::new((free_cache, total_cache));
 
