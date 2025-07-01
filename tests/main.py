@@ -60,11 +60,18 @@ def test_scenario(worker_hosts, worker_sleep_duration):
             for cos, exec_time in exec_time_map.items():
                 write_to_file([task_name, input_size, cos, exec_time], "./results/bench_output.csv")
 
+        start_time = time.time()
+
         # running for inputs
         for input_size in run_inputs:
             for _ in range(TEST_ITER):
                 mode, cos, exec_time = client.run_task(command, task_id, input_size)
                 write_to_file([task_name, input_size, mode, cos, exec_time, generosity], "./results/run_output.csv")
+
+        end_time = time.time()
+        exec_time = end_time - start_time
+
+        print(f"Execution time for function was ({exec_time:.4f})")
 
 
 if __name__ == "__main__":
