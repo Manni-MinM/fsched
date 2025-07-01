@@ -2,4 +2,4 @@ install-deps:
 	cargo build
 
 start-worker:
-	cargo run
+	./target/debug/fsched -- $(PORT)

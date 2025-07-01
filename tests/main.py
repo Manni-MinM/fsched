@@ -12,9 +12,6 @@ SCHEDULER_URL = "http://localhost:8000"
 CONTROLLER_URL = "http://localhost:8200"
 CLIENT_DELAY_SECONDS = 0.1
 
-WORKER_SLEEP_DURATION = 10
-WORKER_HOSTS = ["http://localhost:3000"]
-
 FUNCTIONS = [
     {
         "command": "python3.10",
@@ -31,11 +28,11 @@ def write_to_file(values, filepath):
         csv_writer = csv.writer(file)
         csv_writer.writerow(values)
 
-def test_scenario():
-    for host in WORKER_HOSTS:
+def test_scenario(worker_hosts, worker_sleep_duration):
+    for host in worker_hosts:
         assert client.register_worker(host)
 
-    time.sleep(WORKER_SLEEP_DURATION)
+    time.sleep(worker_sleep_duration)
 
     for function in FUNCTIONS:
         command = function["command"]
@@ -72,8 +69,13 @@ if __name__ == "__main__":
     _ = input()
 
     try:
-        test_scenario()
-        print(f"testing Successful")
+        # single worker test
+        # test_scenario(["http://localhost:3000"], 10)
+        # print(f"Testing Successful: %SINGLE WORKER%")
+
+        # multi worker test
+        test_scenario(["http://localhost:3000", "http://localhost:3100"], 10)
+        print(f"Testing Successful: %MULTI WORKERS%")
 
     except Exception as err:
-        print(f"testing Failed With The Following Error: {err}")
+        print(f"Testing Failed With The Following Error: {err}")

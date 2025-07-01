@@ -6,6 +6,8 @@ use axum::{
     Router,
 };
 
+use std::env;
+
 use config::{Config, FileFormat, File};
 
 use fsched::{
@@ -61,7 +63,8 @@ async fn main() {
             .nest("/daemon", daemon_app)
             .nest("/system", exporter_app);
 
-        let server_host = app_config.get_string("server_host").unwrap();
+        let port = env::args().nth(2).unwrap_or_else(|| "3000".to_string());
+        let server_host = format!("localhost:{}", port);
 
         let listener = tokio::net::TcpListener::bind(server_host).await.unwrap();
         axum::serve(listener, app).await.unwrap();

@@ -9,14 +9,15 @@ make gunicorn-predictor&
 deactivate
 
 cd ../worker/
-make start-worker&
+make start-worker PORT=3000&
+make start-worker PORT=3100&
 
 cd ../tests/
 source .venv/bin/activate
 python main.py
 deactivate
 
-PORTS=(3000 8000 8100 8200 8300)
+PORTS=(3000 3100 8000 8100 8200 8300)
 
 for PORT in "${PORTS[@]}"; do
     echo "Checking port $PORT..."
