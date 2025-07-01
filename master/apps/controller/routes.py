@@ -6,7 +6,6 @@ from flask import Blueprint, request, jsonify
 routes_bp = Blueprint("routes", __name__)
 
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/controller/task/new", methods=["POST"])
 def new_task():
     if "file" not in request.files:
@@ -18,7 +17,6 @@ def new_task():
 
     return jsonify({"task_id": f"{task_id}"}), 200
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/controller/task/run", methods=["POST"])
 def run_task():
     json_data = request.get_json()
@@ -43,7 +41,6 @@ def run_task():
 
     return json_data, 200
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/controller/task/benchmark", methods=["POST"])
 def benchmark_task():
     json_data = request.get_json()

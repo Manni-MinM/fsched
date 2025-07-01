@@ -7,7 +7,6 @@ from apps.controller import models
 
 
 class Controller:
-    # FIXME: pass config as argument to constructor instead of reading directly from Config
     def __init__(self):
         self.cos_count = Config.COS_COUNT
         self.manager_host = Config.MANAGER_HOST
@@ -43,7 +42,6 @@ class Controller:
 
         return json_data["worker_id"], json_data["cos"]
 
-    # FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
     def __execution_helper(self, command, task_id, input_size, cos):
         url = f"{self.manager_host}/cluster/task/assign"
 
@@ -64,7 +62,6 @@ class Controller:
 
         return resp
 
-    # FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
     def assign_benchmark(self, command, task_id, input_size):
         exec_time_map = {}
 
@@ -72,7 +69,6 @@ class Controller:
             resp = self.__execution_helper(command, task_id, input_size, cos)
             json_data = resp.json()["result"]
 
-            # FIXME: use exceptions here
             if json_data["exit_status"] != 0:
                 return
 
@@ -96,7 +92,6 @@ class Controller:
 
         return generosity
 
-    # FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
     def __llc_prediction(self, task_id, input_size, generosity):
         url = f"{self.predictor_host}/predictor/task"
 
@@ -132,7 +127,6 @@ class Controller:
 
         return json_data["suitable_cos"]
 
-    # FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
     def assign_execution(self, command, task_id, input_size):
         generosity = self.__get_generosity_variable()
         suitable_cos = self.__llc_prediction(task_id, input_size, generosity)

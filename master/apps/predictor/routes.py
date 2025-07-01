@@ -5,7 +5,6 @@ from flask import Blueprint, request, jsonify
 
 routes_bp = Blueprint("routes", __name__)
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/predictor/task/benchmarked", methods=["POST"])
 def predict_benchmarked_task_cache_requirements():
     json_data = request.get_json()
@@ -25,7 +24,6 @@ def predict_benchmarked_task_cache_requirements():
 
     return jsonify({"suitable_cos": suitable_cos}), 200
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/predictor/task/assisted", methods=["POST"])
 def predict_assisted_task_cache_requirements():
     json_data = request.get_json()

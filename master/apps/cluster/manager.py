@@ -8,7 +8,6 @@ from apps.cluster.worker import WorkerNode
 
 
 class ClusterManager:
-    # FIXME: pass config as argument to constructor instead of reading directly from Config
     def __init__(self):
         self.worker_id_map = {}
         self.scrape_interval = Config.SCRAPE_INTERVAL_SECONDS

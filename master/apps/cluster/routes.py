@@ -28,7 +28,6 @@ def list_workers():
 
     return jsonify(worker_id_map), 200
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/cluster/task/assign", methods=["POST"])
 def assign_task_to_worker():
     json_data = request.get_json()

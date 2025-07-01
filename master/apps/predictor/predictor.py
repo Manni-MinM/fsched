@@ -4,9 +4,7 @@ from db.csv import CSVAdapter
 
 
 class CachePredictor:
-    # FIXME: pass config as argument to constructor instead of reading directly from Config
     def __init__(self):
-        # FIXME: reading csv file for now will switch to db later
         self.__db = CSVAdapter()
         self.__task_input_map = {}
         self.__model = None
@@ -40,14 +38,12 @@ class CachePredictor:
         target_name, rep_size = task_map[nearest_input_size]
         target_size = int(rep_size * (int(input_size) / int(nearest_input_size)))
 
-        # TODO: use a proper logger here
         print(f"nearest_input_size: {nearest_input_size} | root: {(target_name, rep_size)} | target_size: {target_size}")
 
         available_rep_funcs = [(rep_name, rep_size) for (rep_name, rep_size) in self.__model.keys() if rep_name == target_name]
         rep_func = min(available_rep_funcs, key=lambda x:abs(int(x[1]) - int(target_size)))
         _, suitable_cos, _ = self.__model[rep_func]
 
-        # TODO: use a proper logger here
         print(f"input_size: {input_size} | rep: {rep_func} | cos: {suitable_cos}")
 
         return rep_func, suitable_cos
@@ -68,8 +64,6 @@ class CachePredictor:
 
         rep_func, suitable_cos = self.__find_corresponding_model_with_exec_times(function_exec_times)
         task_map[input_size] = rep_func
-
-        # TODO: add logic to add these data points to db for system dynamic alloc
 
         return suitable_cos
 

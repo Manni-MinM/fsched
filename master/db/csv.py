@@ -7,7 +7,6 @@ from config import Config
 
 
 class CSVAdapter:
-    # FIXME: pass config as argument to constructor instead of reading directly from Config
     def __init__(self):
         self.__cos_count = Config.COS_COUNT
         self.__df = pd.read_csv(Config.DB_CSV_PATH)
@@ -56,7 +55,6 @@ class CSVAdapter:
 
         return reg_exec_times
 
-    # FIXME: this should be done periodically not on api call
     def build_model(self, generosity):
         model = {}
 

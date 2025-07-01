@@ -39,7 +39,6 @@ impl TaskService {
 
     pub async fn command_handler(State(state): State<TaskService>, Json(payload): Json<TaskRequest>) -> impl IntoResponse {
         if let Some(command) = payload.command {
-            // FIXME: i dont know if it's safe to put zero here
             let proc = Process::new(command, String::new(), 0);
 
             match state.runtime.run_process(proc).await {

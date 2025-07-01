@@ -12,7 +12,6 @@ def get_generosity():
 
     return jsonify({"generosity": generosity_variable}), 200
 
-# FIXME: this uses REST for now, in the future it should be implemented using smth event-based (eg: rabbitmq)
 @routes_bp.route("/scheduler/task/worker", methods=["POST"])
 def get_suitable_worker():
     json_data = request.get_json()
